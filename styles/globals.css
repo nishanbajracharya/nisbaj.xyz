@@ -14,3 +14,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@media screen and (min-width: 960px) {
+  .app-content{
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
