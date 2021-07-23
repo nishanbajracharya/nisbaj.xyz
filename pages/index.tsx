@@ -10,9 +10,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="app-content">
-        <h1>
-          Welcome to <Link href="/">nisbaj.xyz</Link>
+      <main className="container mx-auto p-4 flex flex-col justify-center items-center min-h-screen">
+        <h1 className="text-5xl font-semibold text-center">
+          Welcome to <Link href="/"><a title="Home" className="text-blue-500 hover:underline">nisbaj.xyz</a></Link>
         </h1>
       </main>
     </div>

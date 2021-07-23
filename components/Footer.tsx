@@ -1,16 +1,9 @@
 import Image from 'next/image';
 
 export default function Footer() {
-  return <footer className="app-content">
-    <a
-      href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Powered by{' '}
-      <span>
-        <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-      </span>
-    </a>
+  return <footer className="border-t">
+    <div className="container mx-auto p-4 text-center">
+      Nishan Bajracharya
+    </div>
   </footer>;
 }
