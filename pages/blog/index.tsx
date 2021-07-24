@@ -3,13 +3,21 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogSummary[]>([]);
+  const initialBlogs = (() => {
+    try {
+      return JSON.parse(window.localStorage.getItem('blogs') || '[]');
+    } catch (e) {
+      return [];
+    }
+  })();
+  const [blogs, setBlogs] = useState<BlogSummary[]>(initialBlogs);
 
   useEffect(() => {
     fetch('/api/blog')
       .then((response) => response.json())
       .then((response) => {
         setBlogs(response.data);
+        window.localStorage.setItem('blogs', JSON.stringify(response.data));
       });
   }, []);
 

@@ -66,7 +66,7 @@ function Blog() {
           </a>
         </Link>
         <h2 className="font-semibold text-2xl my-4">{blog.title}</h2>
-        <p className="my-4">{blog.content}</p>
+        <div className="my-4 unreset" dangerouslySetInnerHTML={{__html: blog.content}} />
       </div>
     </>
   );
