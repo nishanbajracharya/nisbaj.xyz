@@ -2,7 +2,14 @@ import Head from 'next/head';
 import Link from 'next/link';
 import classnames from 'classnames';
 import { useState, useEffect } from 'react';
-import { IoLogoLinkedin, IoMail, IoLogoGithub } from 'react-icons/io5';
+import {
+  IoLogoLinkedin,
+  IoMail,
+  IoLogoGithub,
+  IoDocument,
+  IoStar,
+  IoCall,
+} from 'react-icons/io5';
 
 const links = [
   {
@@ -26,17 +33,17 @@ const nav = [
   {
     title: 'Blog',
     route: '/blog',
-    icon: '',
+    icon: IoDocument,
   },
   {
     title: 'Showcase',
     route: '/showcase',
-    icon: '',
+    icon: IoStar,
   },
   {
     title: 'Contact',
     route: '/contact',
-    icon: '',
+    icon: IoCall,
   },
 ];
 
@@ -44,7 +51,7 @@ export default function Home() {
   const [animationStart, setAnimationStart] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setAnimationStart(true), 500);
+    setTimeout(() => setAnimationStart(true));
   }, []);
 
   return (
@@ -108,12 +115,14 @@ export default function Home() {
           )}
         >
           {nav.map((link) => {
+            const Icon = link.icon;
             return (
               <Link href={link.route} key={link.route}>
                 <a
                   title={link.title}
-                  className="flex flex-col justify-center items-center text-center p-2 transition duration-150 hover:text-blue-500 hover:underline"
+                  className="flex items-center p-2 m-1 transition duration-150 hover:text-blue-500 hover:underline"
                 >
+                  <Icon className="mr-2" />
                   {link.title}
                 </a>
               </Link>
