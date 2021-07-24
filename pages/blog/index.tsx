@@ -18,18 +18,26 @@ export default function Blog() {
       <Head>
         <title>nisbaj.xyz - Blog</title>
       </Head>
-      <h2 className="font-semibold text-2xl">Blog</h2>
-      <div className="my-2">
+      <h2 className="font-semibold text-2xl my-4">Blog</h2>
+      <div>
         {blogs &&
           blogs.length > 0 &&
           blogs.map((blog) => {
             return (
-              <div key={blog.id} className="my-6">
+              <div key={blog.id} className="my-4">
                 <Link href={`/blog/${blog.id}`}>
-                  <a title={blog.title} className="text-lg text-blue-500 hover:underline">{blog.title}</a>
+                  <a
+                    title={blog.title}
+                    className="text-lg text-blue-500 hover:underline"
+                  >
+                    {blog.title}
+                  </a>
                 </Link>
                 <p className="text-gray-600 dark:text-white">{blog.summary}</p>
-                <p className="text-gray-400 text-sm">Published Date: <span>{new Date(blog.createdAt).toDateString()}</span></p>
+                <p className="text-gray-400 text-sm">
+                  Published Date:{' '}
+                  <span>{new Date(blog.createdAt).toDateString()}</span>
+                </p>
               </div>
             );
           })}
