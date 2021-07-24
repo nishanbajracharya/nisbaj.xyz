@@ -1,10 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { IoMail } from 'react-icons/io5';
-import { IoLogoGithub } from 'react-icons/io5';
-
 import classnames from 'classnames';
 import { useState, useEffect } from 'react';
+import { IoLogoLinkedin, IoMail, IoLogoGithub } from 'react-icons/io5';
 
 const links = [
   {
@@ -16,6 +14,11 @@ const links = [
     title: 'Email',
     url: 'mailto:nisbaj11@gmail.com',
     icon: IoMail,
+  },
+  {
+    title: 'Linkedin',
+    url: 'https://linkedin.com/in/nisbaj',
+    icon: IoLogoLinkedin,
   },
 ];
 
@@ -64,7 +67,7 @@ export default function Home() {
 
             return (
               <a
-                className="flex flex-col justify-center items-center text-center m-4 hover:text-blue-500 hover:underline"
+                className="flex flex-col justify-center items-center text-center m-4 transition duration-150 hover:text-blue-500 hover:underline"
                 target="_blank"
                 rel="noreferrer noopener"
                 href={link.url}
