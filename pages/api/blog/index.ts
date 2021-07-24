@@ -1,16 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import connect from '../../../lib/db';
+import * as blog from '../../../services/blog';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { db } = await connect();
-    const data: BlogSummary[] = await db
-      .collection('blog')
-      .find({})
-      .project({ content: 0 })
-      .toArray();
+    const data = await blog.getAll();
 
     res.status(200).json({
       data,
