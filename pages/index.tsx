@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { IoMail } from 'react-icons/io5';
 import { IoLogoGithub } from 'react-icons/io5';
 
+import classnames from 'classnames';
+import { useState, useEffect } from 'react';
+
 const links = [
   {
     title: 'Github',
@@ -17,6 +20,12 @@ const links = [
 ];
 
 export default function Home() {
+  const [animationStart, setAnimationStart] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setAnimationStart(true), 500);
+  }, []);
+
   return (
     <div>
       <Head>
@@ -26,7 +35,14 @@ export default function Home() {
       </Head>
 
       <main className="container mx-auto p-4 flex flex-col justify-center items-center min-h-screen">
-        <h1 className="text-5xl font-semibold text-center">
+        <h1
+          className={classnames(
+            'text-5xl font-semibold text-center transition transform duration-1000 opacity-0',
+            {
+              '-translate-y-16 opacity-100': animationStart,
+            }
+          )}
+        >
           Welcome to{' '}
           <Link href="/">
             <a title="Home" className="font-mono text-blue-500 hover:underline">
@@ -35,7 +51,14 @@ export default function Home() {
           </Link>
         </h1>
 
-        <div className="flex">
+        <div
+          className={classnames(
+            'flex transition transform duration-1000 delay-500 opacity-0',
+            {
+              '-translate-y-12 opacity-100': animationStart,
+            }
+          )}
+        >
           {links.map((link) => {
             const Icon = link.icon;
 
