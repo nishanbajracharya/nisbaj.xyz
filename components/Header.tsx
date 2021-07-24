@@ -6,7 +6,7 @@ export default function Header() {
       <Link
         href="/"
       >
-        <a title="Home" className="text-blue-500 hover:underline">nisbaj.xyz</a>
+        <a title="Home" className="font-semibold hover:underline font-mono">nisbaj.xyz</a>
       </Link>
       <div>Menu</div>
     </div>
