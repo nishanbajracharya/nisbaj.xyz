@@ -22,6 +22,24 @@ const links = [
   },
 ];
 
+const nav = [
+  {
+    title: 'Blog',
+    route: '/blog',
+    icon: '',
+  },
+  {
+    title: 'Showcase',
+    route: '/showcase',
+    icon: '',
+  },
+  {
+    title: 'Contact',
+    route: '/contact',
+    icon: '',
+  },
+];
+
 export default function Home() {
   const [animationStart, setAnimationStart] = useState(false);
 
@@ -40,7 +58,7 @@ export default function Home() {
       <main className="container mx-auto p-4 flex flex-col justify-center items-center min-h-screen">
         <h1
           className={classnames(
-            'text-5xl font-semibold text-center transition transform duration-1000 opacity-0',
+            'text-5xl font-semibold text-center transition transform duration-1000 opacity-0 mt-16',
             {
               '-translate-y-16 opacity-100': animationStart,
             }
@@ -77,6 +95,28 @@ export default function Home() {
                 <Icon size={32} />
                 <span>{link.title}</span>
               </a>
+            );
+          })}
+        </div>
+
+        <div
+          className={classnames(
+            'flex flex-col transition transform duration-1000 delay-1000 opacity-0 mt-8',
+            {
+              '-translate-y-12 opacity-100': animationStart,
+            }
+          )}
+        >
+          {nav.map((link) => {
+            return (
+              <Link href={link.route} key={link.route}>
+                <a
+                  title={link.title}
+                  className="flex flex-col justify-center items-center text-center p-2 transition duration-150 hover:text-blue-500 hover:underline"
+                >
+                  {link.title}
+                </a>
+              </Link>
             );
           })}
         </div>
