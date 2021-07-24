@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogItemSummary[]>([]);
+  const [blogs, setBlogs] = useState<BlogSummary[]>([]);
 
   useEffect(() => {
     fetch('/api/blog')
@@ -24,8 +24,8 @@ export default function Blog() {
           blogs.length > 0 &&
           blogs.map((blog) => {
             return (
-              <div key={blog.id} className="my-4">
-                <Link href={`/blog/${blog.id}`}>
+              <div key={blog._id} className="my-4">
+                <Link href={`/blog/${blog.vanityId}`}>
                   <a
                     title={blog.title}
                     className="text-lg text-blue-500 hover:underline"

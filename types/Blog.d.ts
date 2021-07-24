@@ -1,15 +1,16 @@
-type BlogItemSummary = {
+type BlogSummary = {
+  _id: string;
   title: string;
-  id: string;
   summary: string;
+  vanityId: string;
   createdAt: number;
 };
 
-type Blog =
-  | {
-      title: string;
-      id: string;
-      content: string;
-      createdAt: number;
-    }
-  | undefined;
+type Blog = {
+  _id: string;
+  title: string;
+  content: string;
+  summary: string;
+  vanityId: string;
+  createdAt: number;
+};

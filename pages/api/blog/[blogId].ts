@@ -1,33 +1,28 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const data = [
-  {
-    title: 'First Blog',
-    id: '1234567890',
-    content: 'A summary',
-    createdAt: 1234534534469,
-  },
-  {
-    title: 'Second Blog',
-    id: 'abcd-1234',
-    content: 'Another summary',
-    createdAt: 1345323454690,
-  },
-];
+import connect from '../../../lib/db';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Blog | Error404>
+  res: NextApiResponse
 ) {
-  const { blogId } = req.query;
+  try {
+    const { blogId } = req.query;
 
-  const blog = data.find((item) => item.id === blogId);
+    const { db } = await connect();
 
-  if (!blog) {
-    res.status(404).json({ message: 'Blog not found' });
-    return;
+    const blog = await db.collection('blog').findOne({ vanityId: blogId });
+
+    if (!blog) {
+      res.status(404).json({ message: 'Blog not found' });
+      return;
+    }
+
+    res.status(200).json(blog);
+  } catch (e) {
+    res.status(500).json({
+      status: 'Error',
+    });
   }
-
-  res.status(200).json(blog);
 }

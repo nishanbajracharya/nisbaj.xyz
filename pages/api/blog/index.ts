@@ -1,38 +1,30 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
-  data: BlogItemSummary[];
-  meta: {
-    page: number;
-    pageCount: number;
-    pageSize: number;
-  };
-};
+import connect from '../../../lib/db';
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({
-    data: [
-      {
-        title: 'First Blog',
-        id: '1234567890',
-        summary: 'A summary',
-        createdAt: 1234534534469,
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const { db } = await connect();
+    const data: BlogSummary[] = await db
+      .collection('blog')
+      .find({})
+      .project({ content: 0 })
+      .toArray();
+
+    res.status(200).json({
+      data,
+      meta: {
+        page: 1,
+        pageCount: 5,
+        pageSize: 2,
       },
-      {
-        title: 'Second Blog',
-        id: 'abcd-1234',
-        summary: 'Another summary',
-        createdAt: 1345323454690,
-      },
-    ],
-    meta: {
-      page: 1,
-      pageCount: 5,
-      pageSize: 2,
-    },
-  });
+    });
+  } catch (e) {
+    res.status(500).json({
+      status: 'Error',
+    });
+  }
 }
+
+export default handler;
