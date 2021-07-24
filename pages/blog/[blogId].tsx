@@ -48,7 +48,7 @@ function Blog() {
               Back
             </a>
           </Link>
-          <h2 className="font-semibold text-2xl my-4">Blog not found</h2>
+          <h2 className="font-semibold text-2xl my-4">{loading ? 'Loading Blog' : 'Blog not found'}</h2>
         </div>
       </>
     );
