@@ -3,8 +3,8 @@ import Layout from '../components/Layout';
 import type { AppProps } from 'next/app';
 
 type Props = AppProps & {
-  Component: AppProps["Component"] & {getLayout: Function}
-}
+  Component: AppProps['Component'] & { getLayout: Function };
+};
 
 function MyApp({ Component, pageProps }: Props) {
   const getLayout = Component.getLayout || (() => ({}));
@@ -13,8 +13,10 @@ function MyApp({ Component, pageProps }: Props) {
     return <Component {...pageProps} />;
   }
 
-  return <Layout>
-    <Component {...pageProps} />
-  </Layout>;
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  );
 }
 export default MyApp;
