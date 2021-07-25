@@ -42,8 +42,8 @@ function Blog() {
       <>
         <Head>
           <title>
-            {loading === LOADING_STATUS.LOADING && 'Loading'}
-            {loading === LOADING_STATUS.FAILED && 'Blog not found'}
+            {loading === LOADING_STATUS.LOADING ? 'Loading' : ''}
+            {loading === LOADING_STATUS.FAILED ? 'Blog not found' : ''}
           </title>
         </Head>
         <div className="my-4">
@@ -54,8 +54,8 @@ function Blog() {
             </a>
           </Link>
           <h2 className="font-semibold text-2xl my-4">
-            {loading === LOADING_STATUS.LOADING && 'Loading'}
-            {loading === LOADING_STATUS.FAILED && 'Blog not found'}
+            {loading === LOADING_STATUS.LOADING ? 'Loading' : ''}
+            {loading === LOADING_STATUS.FAILED ? 'Blog not found' : ''}
           </h2>
         </div>
       </>

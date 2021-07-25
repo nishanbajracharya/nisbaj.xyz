@@ -3,9 +3,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import * as blog from '../../../services/blog';
 
+type Response = Document | undefined | APIError;
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<Response>
 ) {
   try {
     const { blogId } = req.query;

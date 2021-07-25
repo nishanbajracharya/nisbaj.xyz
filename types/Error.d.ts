@@ -1,3 +1,5 @@
-type Error404 = {
-  message: string;
+type APIError = {
+  code?: number;
+  status?: string;
+  message?: string;
 };

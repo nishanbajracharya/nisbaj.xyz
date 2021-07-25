@@ -3,16 +3,29 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import * as blog from '../../../services/blog';
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+type Response = {
+  data: BlogSummary[];
+  meta: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    blogCount: number;
+  };
+};
+
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Response | APIError>
+) {
   try {
     const page = Number(req.query.page) || 1;
     const pageSize = Number(req.query.pagesize) || 10;
 
     const data = await blog.getAll(page, pageSize);
 
-    const count = await blog.getCount();
+    const blogCount = await blog.getCount();
 
-    const pageCount = Math.ceil(count / pageSize);
+    const pageCount = Math.ceil(blogCount / pageSize);
 
     res.status(200).json({
       data,
@@ -20,12 +33,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         page,
         pageSize,
         pageCount,
+        blogCount,
       },
     });
   } catch (e) {
     res.status(500).json({
-      e,
+      code: 500,
       status: 'Error',
+      message: e.message,
     });
   }
 }
