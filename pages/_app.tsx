@@ -3,13 +3,11 @@ import Layout from '../components/Layout';
 import type { AppProps } from 'next/app';
 
 type Props = AppProps & {
-  Component: AppProps['Component'] & { getLayout: Function };
+  Component: AppProps['Component'] & { getLayout?: Function };
 };
 
 function MyApp({ Component, pageProps }: Props) {
-  const getLayout = Component.getLayout || (() => ({}));
-
-  if (getLayout().noDecoration) {
+  if (Component.getLayout?.().noDecoration) {
     return <Component {...pageProps} />;
   }
 

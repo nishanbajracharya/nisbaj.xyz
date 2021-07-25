@@ -1,13 +1,18 @@
 import { useRouter } from 'next/router';
+import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 
 import { decode } from '../lib/token';
+
+(global as any)['decode'] = decode;
 
 function verifyToken(token: string) {
   if (!token) return false;
 
   try {
-    decode(token);
+    const result = decode(token);
+
+    if (!result) return false;
 
     return true;
   } catch (e) {
@@ -42,14 +47,18 @@ export function useAuth() {
       loaded: true,
       tokenVerified,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return auth;
 }
 
-export function withAuth(Component: any) {
-  return function AuthIntermediate(props: any) {
+type IntermediateComponent = AppProps['Component'] & { getLayout?: Function };
+
+export function withAuth(
+  Component: AppProps['Component']
+): IntermediateComponent {
+  function AuthIntermediate(props: any) {
     const auth = useAuth();
 
     const router = useRouter();
@@ -63,5 +72,7 @@ export function withAuth(Component: any) {
     }
 
     return <Component {...props} />;
-  };
+  }
+
+  return AuthIntermediate;
 }
