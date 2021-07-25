@@ -2,44 +2,49 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-
 import { IoChevronBack } from 'react-icons/io5';
+
+import * as http from '../../lib/http';
+import { LOADING_STATUS } from '../../types/Loading';
 
 function Blog() {
   const router = useRouter();
   const { blogId } = router.query;
 
   const [blog, setBlog] = useState<Blog | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<LOADING_STATUS>(
+    LOADING_STATUS.INITIAL
+  );
 
   useEffect(() => {
     if (blogId) {
-      setLoading(true);
-      fetch(`/api/blog/${blogId}`)
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+      setLoading(LOADING_STATUS.LOADING);
 
-          return response.json().then((data) => {
-            throw new Error(data);
-          });
-        })
+      http
+        .get(`/api/blog/${blogId}`)
         .then((response) => {
-          if (response) {
-            setBlog(response);
-          }
+          setBlog(response.data);
+          setLoading(LOADING_STATUS.LOADED);
         })
-        .catch((e) => setBlog(null))
-        .finally(() => setLoading(false));
+        .catch((e) => {
+          setBlog(null);
+          setLoading(LOADING_STATUS.FAILED);
+        });
     }
   }, [blogId]);
 
-  if (!blog)
+  if (
+    !blog ||
+    loading === LOADING_STATUS.LOADING ||
+    loading === LOADING_STATUS.FAILED
+  )
     return (
       <>
         <Head>
-          <title>{loading ? 'Loading' : 'Blog not found'}</title>
+          <title>
+            {loading === LOADING_STATUS.LOADING && 'Loading'}
+            {loading === LOADING_STATUS.FAILED && 'Blog not found'}
+          </title>
         </Head>
         <div className="my-4">
           <Link href="/blog">
@@ -48,7 +53,10 @@ function Blog() {
               Back
             </a>
           </Link>
-          <h2 className="font-semibold text-2xl my-4">{loading ? 'Loading Blog' : 'Blog not found'}</h2>
+          <h2 className="font-semibold text-2xl my-4">
+            {loading === LOADING_STATUS.LOADING && 'Loading'}
+            {loading === LOADING_STATUS.FAILED && 'Blog not found'}
+          </h2>
         </div>
       </>
     );
@@ -66,7 +74,10 @@ function Blog() {
           </a>
         </Link>
         <h2 className="font-semibold text-2xl my-4">{blog.title}</h2>
-        <div className="my-4 unreset" dangerouslySetInnerHTML={{__html: blog.content}} />
+        <div
+          className="my-4 unreset"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
       </div>
     </>
   );

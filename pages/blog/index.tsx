@@ -2,6 +2,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
+import * as http from '../../lib/http';
+import { LOADING_STATUS } from '../../types/Loading';
+
 export default function Blog() {
   const initialBlogs = (() => {
     try {
@@ -12,12 +15,27 @@ export default function Blog() {
   })();
   const [blogs, setBlogs] = useState<BlogSummary[]>(initialBlogs);
 
+  const [loading, setLoading] = useState<LOADING_STATUS>(
+    LOADING_STATUS.INITIAL
+  );
+
   useEffect(() => {
-    fetch('/api/blog')
-      .then((response) => response.json())
+    setLoading(LOADING_STATUS.LOADING);
+
+    http
+      .get('/api/blog')
       .then((response) => {
-        setBlogs(response.data);
-        window.localStorage.setItem('blogs', JSON.stringify(response.data));
+        setBlogs(response.data.data);
+        setLoading(LOADING_STATUS.LOADED);
+        window.localStorage.setItem(
+          'blogs',
+          JSON.stringify(response.data.data)
+        );
+      })
+      .catch((e) => {
+        setBlogs([]);
+        setLoading(LOADING_STATUS.FAILED);
+        window.localStorage.removeItem('blogs');
       });
   }, []);
 
