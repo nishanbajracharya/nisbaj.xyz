@@ -4,11 +4,11 @@ import 'react-quill/dist/quill.bubble.css';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+import http from '../../../lib/http';
 import { withAuth } from '../../../hoc/withAuth';
 import { LOADING_STATUS } from '../../../types/Loading';
-import http from '../../../lib/http';
 
-function Blog() {
+function NewBlog() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(LOADING_STATUS.INITIAL);
@@ -77,4 +77,4 @@ function Blog() {
   );
 }
 
-export default withAuth(Blog);
+export default withAuth(NewBlog);

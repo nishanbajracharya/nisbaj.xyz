@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 import http from '../../../lib/http';
+import { withAuth } from '../../../hoc/withAuth';
 import { LOADING_STATUS } from '../../../types/Loading';
 
-export default function Blog() {
+function Blog() {
   const initialBlogs = (() => {
     try {
       return JSON.parse(window.localStorage.getItem('blogs') || '[]');
@@ -94,3 +95,5 @@ export default function Blog() {
     </>
   );
 }
+
+export default withAuth(Blog);

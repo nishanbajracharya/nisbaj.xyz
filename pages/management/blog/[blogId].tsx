@@ -7,12 +7,14 @@ import { IoChevronBack } from 'react-icons/io5';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.bubble.css';
 
+import { withAuth } from '../../../hoc/withAuth';
+
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 import http from '../../../lib/http';
 import { LOADING_STATUS } from '../../../types/Loading';
 
-function Blog() {
+function EditBlog() {
   const router = useRouter();
   const { blogId } = router.query;
 
@@ -149,4 +151,4 @@ function Blog() {
   );
 }
 
-export default Blog;
+export default withAuth(EditBlog);

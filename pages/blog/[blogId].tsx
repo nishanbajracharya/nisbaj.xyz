@@ -1,11 +1,19 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import parse, { DOMNode, Element } from 'html-react-parser';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { IoChevronBack } from 'react-icons/io5';
 
 import http from '../../lib/http';
 import { LOADING_STATUS } from '../../types/Loading';
+
+const isElement = (domNode: DOMNode): domNode is Element => {
+  const isTag = domNode.type === 'tag';
+  const hasAttributes = (domNode as Element).attribs !== undefined;
+
+  return isTag && hasAttributes;
+};
 
 function Blog() {
   const router = useRouter();
@@ -15,6 +23,25 @@ function Blog() {
   const [loading, setLoading] = useState<LOADING_STATUS>(
     LOADING_STATUS.INITIAL
   );
+
+  function renderBlog(content: string = '') {
+    return parse(content, {
+      replace: (node) => {
+        if (
+          isElement(node) &&
+          node.name === 'p' &&
+          node.children &&
+          node.children.length === 1 &&
+          isElement(node.children[0]) &&
+          node.children[0].name === 'br'
+        ) {
+          return <></>;
+        }
+
+        return;
+      },
+    });
+  }
 
   useEffect(() => {
     if (blogId) {
@@ -74,10 +101,7 @@ function Blog() {
           </a>
         </Link>
         <h2 className="font-semibold text-2xl my-4">{blog.title}</h2>
-        <div
-          className="my-4 unreset"
-          dangerouslySetInnerHTML={{ __html: blog.content }}
-        />
+        <div className="my-4 unreset">{renderBlog(blog.content)}</div>
       </div>
     </>
   );
