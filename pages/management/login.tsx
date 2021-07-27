@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import * as http from '../../lib/http';
+import http from '../../lib/http';
 import { withAuth } from '../../hoc/withAuth';
 import Input from '../../components/form/Input';
 import { LOADING_STATUS } from '../../types/Loading';

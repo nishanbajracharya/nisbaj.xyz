@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { IoChevronBack } from 'react-icons/io5';
 
-import * as http from '../../lib/http';
+import http from '../../lib/http';
 import { LOADING_STATUS } from '../../types/Loading';
 
 function Blog() {

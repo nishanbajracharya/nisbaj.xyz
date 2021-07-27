@@ -14,3 +14,8 @@ type Blog = {
   vanityId: string;
   createdAt: number;
 };
+
+type BlogEntity = {
+  title: string;
+  content: string;
+};

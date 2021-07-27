@@ -2,8 +2,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-import http from '../../lib/http';
-import { LOADING_STATUS } from '../../types/Loading';
+import http from '../../../lib/http';
+import { LOADING_STATUS } from '../../../types/Loading';
 
 export default function Blog() {
   const initialBlogs = (() => {
@@ -20,6 +20,10 @@ export default function Blog() {
   );
 
   useEffect(() => {
+    getBlogs();
+  }, []);
+
+  function getBlogs() {
     setLoading(LOADING_STATUS.LOADING);
 
     http
@@ -37,7 +41,18 @@ export default function Blog() {
         setLoading(LOADING_STATUS.FAILED);
         window.localStorage.removeItem('blogs');
       });
-  }, []);
+  }
+
+  function onDelete(blogId: string) {
+    http
+      .delete(`/api/management/blog/${blogId}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then(getBlogs)
+      .catch((e) => e);
+  }
 
   return (
     <>
@@ -51,7 +66,7 @@ export default function Blog() {
           blogs.map((blog) => {
             return (
               <div key={blog._id} className="my-4">
-                <Link href={`/blog/${blog.vanityId}`}>
+                <Link href={`/management/blog/${blog.vanityId}`}>
                   <a
                     title={blog.title}
                     className="text-lg text-blue-500 hover:underline"
@@ -64,6 +79,14 @@ export default function Blog() {
                   Published:{' '}
                   <span>{new Date(blog.createdAt).toDateString()}</span>
                 </p>
+                <div>
+                  <button
+                    className="text-red-500 hover:underline"
+                    onClick={() => onDelete(blog.vanityId)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             );
           })}

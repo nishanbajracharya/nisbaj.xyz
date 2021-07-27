@@ -32,3 +32,59 @@ export async function getCount() {
 
   return count;
 }
+
+export async function create(data: BlogEntity) {
+  const { db } = await connect();
+
+  const createdAt = Date.now();
+
+  const vanityId =
+    data.title.toLowerCase().split(' ').join('-') + '-' + createdAt;
+
+  const summary = (data.content || '')
+    .replace(/<[^>]+>/g, ' ')
+    .substr(0, 200)
+    .trim();
+
+  const result = await db.collection('blog').insertOne({
+    ...data,
+    createdAt,
+    vanityId,
+    summary,
+    updatedAt: createdAt,
+  });
+
+  return result;
+}
+
+export async function update(blogId: string, data: BlogEntity) {
+  const { db } = await connect();
+
+  const updatedAt = Date.now();
+
+  const summary = (data.content || '')
+    .replace(/<[^>]+>/g, ' ')
+    .substr(0, 200)
+    .trim();
+
+  const result = await db.collection('blog').updateOne(
+    { vanityId: blogId },
+    {
+      $set: {
+        ...data,
+        updatedAt,
+        summary,
+      },
+    }
+  );
+
+  return result;
+}
+
+export async function deleteBlog(blogId: string) {
+  const { db } = await connect();
+
+  const result = await db.collection('blog').deleteOne({ vanityId: blogId });
+
+  return result;
+}
