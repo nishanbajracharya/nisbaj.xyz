@@ -44,11 +44,11 @@ function NewBlog() {
         value={title}
         placeholder="Title"
         onChange={(e) => setTitle(e.target.value)}
-        className="p-4 rounded my-2 border w-full focus:ring outline-none"
+        className="p-4 rounded my-2 border w-full focus:ring outline-none dark:border-gray-700 dark:bg-gray-600"
       />
       <div className="h-96">
         <ReactQuill
-          className="border dark:border-gray-700 rounded dark:bg-gray-600 h-96 h-full focus:ring"
+          className="border rounded h-96 h-full focus:ring dark:border-gray-700 dark:bg-gray-600"
           theme="bubble"
           value={content}
           onChange={setContent}
